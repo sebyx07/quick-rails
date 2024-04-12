@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    restart: always
+
+  app:
+    build:
+      context: .
+      args:
+        ADDITIONAL_FLAGS: "--enable-yjit"
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      RUBYOPT: "-W:no-deprecated --yjit"
+      BUNDLE_JOBS: 4
+
+volumes:
+  postgres_data:
