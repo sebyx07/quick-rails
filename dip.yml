@@ -1,0 +1,58 @@
+version: '8.0'
+
+environment:
+  COMPOSE_EXT: development
+  STAGE: "staging"
+
+compose:
+  files:
+    - docker/docker-compose.yml
+  project_name: quick-rails
+
+interaction:
+  bash:
+    description: Open the Bash shell in app's container
+    service: app
+    command: bash
+    compose:
+      run_options: [no-deps]
+
+  bundle:
+    description: Run Bundler commands
+    service: app
+    command: bin/bundle
+
+  rake:
+    description: Run Rake commands
+    service: app
+    command: bin/rake
+
+  rspec:
+    description: Run Rspec commands
+    service: app
+    environment:
+      RAILS_ENV: test
+    command: bin/rspec
+
+  rails:
+    description: Run Rails commands
+    service: app
+    command: bin/rails
+
+  up:
+    description: Run full stack (server, workers, etc.)
+    runner: docker_compose
+    compose:
+      profiles: [web, workers]
+
+  psql:
+    description: Run Postgres psql console
+    service: app
+    default_args: db_dev
+    command: psql -h pg -U postgres
+
+provision:
+  - dip compose down --volumes
+  - dip clean_cache
+  - dip compose up -d pg redis
+  - dip bash -c ./bin/setup

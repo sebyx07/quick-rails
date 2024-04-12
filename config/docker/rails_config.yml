@@ -1,0 +1,7 @@
+POSTGRES_USER: postgres
+POSTGRES_PASSWORD: postgres
+POSTGRES_HOST: postgres
+REDIS_URL: "redis://redis:6379/0"
+RUBYOPT: "-W:no-deprecated --yjit"
+BUNDLE_JOBS: 4
+BUNDLE_PATH: ".bundle/"
