@@ -17,7 +17,7 @@ services:
   app:
     build:
       context: ../../../
-      dockerfile: ./config/docker/production/Dockerfile
+      dockerfile: config/docker/production/Dockerfile
       args:
         ADDITIONAL_FLAGS: "--enable-yjit"
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
