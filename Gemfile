@@ -45,3 +45,5 @@ end
 gem 'pry-rails', '~> 0.3.9'
 gem 'devise', '~> 4.9', '>= 4.9.4'
 gem 'dotenv-rails', '~> 3.1', require: 'dotenv/load'
+gem 'sidekiq', '~> 7.2', '>= 7.2.2'
+gem 'redis', '~> 5.1'
